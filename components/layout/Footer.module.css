@@ -1,0 +1,19 @@
+.footer {
+  border-top: 1px solid var(--color-gray-200);
+  background: var(--color-white);
+  padding: 2rem 1rem;
+  margin-top: 4rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.text {
+  font-size: 0.85rem;
+  color: var(--color-gray-500);
+  margin: 0.25rem 0;
+  font-weight: 300;
+}
