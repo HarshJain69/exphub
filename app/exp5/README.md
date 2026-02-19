@@ -106,6 +106,11 @@ app/exp5/
     └── generateProducts.ts           # Mock data generator
 ```
 
+<img width="1295" height="1156" alt="image" src="https://github.com/user-attachments/assets/5fa7167a-f45d-4a5c-aac2-b6038dd3a037" />
+<img width="1904" height="1361" alt="image" src="https://github.com/user-attachments/assets/ab591855-68d8-44ab-96de-f452d0bd773d" />
+<img width="1904" height="1439" alt="image" src="https://github.com/user-attachments/assets/3ad7f8c6-e9ce-46f8-94ea-32cc672493df" />
+
+
 ### Running Bundle Analysis
 
 To analyze bundle size and identify optimization opportunities:
