@@ -38,7 +38,7 @@ const experiments: Experiment[] = [
     title: "Experiment 5",
     description: "Performance optimization with virtualization, memoization, and debouncing",
     liveLink: "/exp5",
-    githubLink: "https://github.com",
+    githubLink: "https://github.com/HarshJain69/exphub/tree/main/app/exp5",
   },
   {
     id: 6,

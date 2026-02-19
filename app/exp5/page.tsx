@@ -164,7 +164,7 @@ export default function Exp5Page() {
             <ExternalLink size={16} />
             Run Lighthouse Audit
           </Button>
-          <Button href="https://github.com">
+          <Button href="https://github.com/HarshJain69/exphub/tree/main/app/exp5">
             <Github size={16} />
             View Source Code
           </Button>
