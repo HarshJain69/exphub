@@ -36,7 +36,7 @@ const experiments: Experiment[] = [
   {
     id: 5,
     title: "Experiment 5",
-    description: "RESTful API design and integration with backend services",
+    description: "Performance optimization with virtualization, memoization, and debouncing",
     liveLink: "/exp5",
     githubLink: "https://github.com",
   },

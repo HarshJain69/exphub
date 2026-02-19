@@ -1,0 +1,120 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--color-black);
+  margin: 0;
+}
+
+.description {
+  font-size: 0.95rem;
+  color: var(--color-gray-600);
+  margin: 0;
+  margin-top: -1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 0.5rem;
+  background: var(--color-white);
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--color-gray-400);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.iconContainer {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background: var(--color-gray-100);
+  color: var(--color-gray-700);
+}
+
+.cardTitle {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--color-black);
+  margin: 0;
+}
+
+.cardDescription {
+  font-size: 0.9rem;
+  color: var(--color-gray-600);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.implementation {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: var(--color-gray-100);
+  border-radius: 0.25rem;
+  font-size: 0.85rem;
+  color: var(--color-gray-700);
+  margin-top: 0.5rem;
+}
+
+.console {
+  padding: 1.5rem;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 0.5rem;
+  background: var(--color-gray-100);
+}
+
+.consoleTitle {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--color-black);
+  margin: 0 0 1rem 0;
+}
+
+.consoleText {
+  font-size: 0.9rem;
+  color: var(--color-gray-700);
+  margin: 0 0 0.75rem 0;
+}
+
+.consoleList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.consoleList li {
+  font-size: 0.9rem;
+  color: var(--color-gray-600);
+  padding-left: 0.5rem;
+  font-family: monospace;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -189,7 +189,6 @@ const experiments: Experiment[] = [
   // ... more experiments
 ];
 ```
-
 ## Metadata and Identity
 
 Student name and UID are embedded at multiple levels:

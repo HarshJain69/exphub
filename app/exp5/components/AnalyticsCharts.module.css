@@ -1,0 +1,104 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.notice {
+  padding: 1.5rem;
+  background: var(--color-gray-100);
+  border: 1px solid var(--color-gray-300);
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.notice p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-gray-700);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 0.5rem;
+  background: var(--color-white);
+}
+
+.iconContainer {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background: var(--color-gray-100);
+  color: var(--color-gray-700);
+  flex-shrink: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.label {
+  font-size: 0.85rem;
+  color: var(--color-gray-500);
+  margin: 0;
+}
+
+.value {
+  font-size: 1.75rem;
+  font-weight: 400;
+  color: var(--color-black);
+  margin: 0;
+}
+
+.change {
+  font-size: 0.85rem;
+  color: var(--color-gray-600);
+  margin: 0;
+  font-weight: 400;
+}
+
+.chartPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 4rem 2rem;
+  border: 1px dashed var(--color-gray-300);
+  border-radius: 0.5rem;
+  background: var(--color-gray-100);
+}
+
+.chartPlaceholder svg {
+  color: var(--color-gray-400);
+}
+
+.chartPlaceholder p {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--color-gray-600);
+  text-align: center;
+}
+
+.chartNote {
+  font-size: 0.85rem !important;
+  color: var(--color-gray-500) !important;
+  max-width: 500px;
+}
