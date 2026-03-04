@@ -1,175 +1,141 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Github } from "lucide-react";
-import Button from "@/components/ui/Button";
-import { SearchBar } from "./components/SearchBar";
-import { VirtualizedProductList } from "./components/VirtualizedProductList";
-import OptimizationDemo from "./components/OptimizationDemo";
-import MetricsSection from "./components/MetricsSection";
-import { useDebounce } from "./hooks/useDebounce";
-import { generateProducts, expensiveFilter, expensiveSort } from "./utils/generateProducts";
-import { PerformanceMetrics } from "./utils/types";
+import { ArrowLeft, FileText, Cpu, Zap } from "lucide-react";
+import { useSelector } from "react-redux";
+import { RootState } from "./redux/store";
+import { useAppContext } from "./context/AppContext";
+import CardComponent from "./components/CardComponent";
+import FilterBar from "./components/FilterBar";
+import ThemeToggle from "./components/ThemeToggle";
 import styles from "./styles.module.css";
 
-// Generate products once on module load
-const allProducts = generateProducts(1000);
-
-// Performance metrics data
-const performanceMetrics: PerformanceMetrics[] = [
-  {
-    label: "Initial Render Time",
-    before: "~850ms",
-    after: "~120ms",
-    improvement: "85% faster",
-  },
-  {
-    label: "Search Input Lag",
-    before: "~300ms",
-    after: "< 16ms",
-    improvement: "94% faster",
-  },
-  {
-    label: "List Scroll FPS",
-    before: "~25 FPS",
-    after: "60 FPS",
-    improvement: "140% smoother",
-  },
-  {
-    label: "Component Re-renders",
-    before: "1000+ per action",
-    after: "< 10 per action",
-    improvement: "99% reduction",
-  },
-  {
-    label: "Bundle Size (gzip)",
-    before: "~180 KB",
-    after: "~95 KB",
-    improvement: "47% smaller",
-  },
+const PRODUCTS = [
+  { id: 1, name: "Mechanical Keyboard", price: 129.99, category: "Peripherals" },
+  { id: 2, name: "Wireless Mouse", price: 49.99, category: "Peripherals" },
+  { id: 3, name: "USB-C Hub", price: 39.99, category: "Accessories" },
+  { id: 4, name: "Monitor Stand", price: 59.99, category: "Furniture" },
+  { id: 5, name: "Webcam HD", price: 89.99, category: "Peripherals" },
+  { id: 6, name: "LED Desk Lamp", price: 34.99, category: "Lighting" },
+  { id: 7, name: "Noise-Cancelling Headset", price: 199.99, category: "Audio" },
+  { id: 8, name: "Ergonomic Chair", price: 349.99, category: "Furniture" },
 ];
 
 export default function Exp5Page() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy] = useState<"name" | "price" | "rating">("name");
+  const [search, setSearch] = useState("");
+  const { theme, user } = useAppContext();
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
 
-  // Debounce search query to prevent excessive filtering
-  const debouncedSearch = useDebounce(searchQuery, 500);
+  // ✅ useMemo: filtered product list — only recomputes when search changes
+  const filteredProducts = useMemo(
+    () =>
+      PRODUCTS.filter((p) =>
+        p.name.toLowerCase().includes(search.toLowerCase())
+      ),
+    [search]
+  );
 
-  // Memoized filtering - only recalculate when debounced search changes
-  const filteredProducts = useMemo(() => {
-    return expensiveFilter(allProducts, debouncedSearch);
-  }, [debouncedSearch]);
-
-  // Memoized sorting - only recalculate when filtered list or sort changes
-  const sortedProducts = useMemo(() => {
-    return expensiveSort(filteredProducts, sortBy);
-  }, [filteredProducts, sortBy]);
-
-  // Memoized callback to prevent function recreation
-  const handleSearchChange = useCallback((value: string) => {
-    setSearchQuery(value);
-  }, []);
-
-  // Memoized product click handler
-  const handleProductClick = useCallback((product: { name: string }) => {
-    console.log("Product selected:", product.name);
-  }, []);
+  // ✅ useMemo: derived cart stats — only recomputes when cartItems changes
+  const cartStats = useMemo(
+    () => ({
+      totalItems: cartItems.reduce((s, i) => s + i.qty, 0),
+      totalValue: cartItems.reduce((s, i) => s + i.price * i.qty, 0),
+    }),
+    [cartItems]
+  );
 
   return (
-    <div className={styles.container}>
-      <Link href="/" className={styles.backLink}>
-        <ArrowLeft size={20} />
-        Back to Dashboard
-      </Link>
+    <div className={`${styles.container} ${theme === "dark" ? styles.dark : ""}`}>
+      <div className={styles.topBar}>
+        <Link href="/" className={styles.backLink}>
+          <ArrowLeft size={18} />
+          Dashboard
+        </Link>
+        <ThemeToggle />
+      </div>
 
-      <div className={styles.content}>
-        {/* Header */}
-        <div className={styles.header}>
+      <div className={styles.header}>
+        <div>
           <h1 className={styles.title}>Experiment 5</h1>
-          <p className={styles.description}>
-            Performance Optimization in React
+          <p className={styles.subtitle}>
+            useMemo Optimization · Extended Redux State
           </p>
         </div>
+        <Link href="/exp5/reports" className={styles.pageLink}>
+          <FileText size={16} />
+          Reports
+        </Link>
+      </div>
 
-        {/* Introduction */}
-        <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>Introduction</h2>
-          <p className={styles.text}>
-            This experiment demonstrates production-grade performance optimization techniques
-            for React applications. It handles 1000+ products with smooth rendering, instant
-            search, and minimal re-renders using memoization, virtualization, and debouncing.
-          </p>
-          <p className={styles.text}>
-            Open the browser console to observe real-time optimization logs showing when
-            expensive operations execute and how memoization prevents unnecessary work.
-          </p>
-        </div>
-
-        {/* Optimization Techniques */}
-        <OptimizationDemo />
-
-        {/* Interactive Demo */}
-        <div className={styles.demoSection}>
-          <h2 className={styles.sectionTitle}>Live Performance Demo</h2>
-          <p className={styles.text}>
-            Search through 1000 products with debouncing and list virtualization
-          </p>
-
-          <div className={styles.searchSection}>
-            <SearchBar
-              value={searchQuery}
-              onChange={handleSearchChange}
-              placeholder="Search 1000 products... (debounced 500ms)"
-            />
-            <p className={styles.searchHint}>
-              Type to search • Only {filteredProducts.length} products match • Smooth scrolling enabled
+      {/* useMemo explainer */}
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>
+          <Zap size={16} /> useMemo Concepts (Exp 5 Additions)
+        </h2>
+        <div className={styles.conceptGrid}>
+          <div className={styles.conceptCard}>
+            <Cpu size={18} />
+            <strong>Filtered List</strong>
+            <p>
+              Product filtering runs inside <code>useMemo</code> — recalculates
+              only when the search string changes, not on every render.
             </p>
           </div>
-
-          <VirtualizedProductList
-            products={sortedProducts}
-            onProductClick={handleProductClick}
-          />
-        </div>
-
-        {/* Performance Metrics */}
-        <MetricsSection metrics={performanceMetrics} />
-
-        {/* Sub-pages Navigation */}
-        <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>Additional Resources</h2>
-          <div className={styles.subPages}>
-            <Link href="/exp5/products" className={styles.subPageLink}>
-              <ExternalLink size={18} />
-              <div>
-                <h3>Products Page</h3>
-                <p>Dedicated product management interface</p>
-              </div>
-            </Link>
-            <Link href="/exp5/analytics" className={styles.subPageLink}>
-              <ExternalLink size={18} />
-              <div>
-                <h3>Analytics Dashboard</h3>
-                <p>Performance monitoring and insights (lazy loaded)</p>
-              </div>
-            </Link>
+          <div className={styles.conceptCard}>
+            <Cpu size={18} />
+            <strong>Cart Stats</strong>
+            <p>
+              Total items &amp; total value are derived via <code>useMemo</code>{" "}
+              from <code>cartItems</code> — zero redundant arithmetic.
+            </p>
           </div>
         </div>
+      </section>
 
-        {/* Actions */}
-        <div className={styles.actions}>
-          <Button variant="primary">
-            <ExternalLink size={16} />
-            Run Lighthouse Audit
-          </Button>
-          <Button href="https://github.com/HarshJain69/exphub/tree/main/app/exp5">
-            <Github size={16} />
-            View Source Code
-          </Button>
+      {/* Context state */}
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Context API — Global State</h2>
+        <div className={styles.infoGrid}>
+          <div className={styles.infoCard}>
+            <span className={styles.label}>User</span>
+            <span className={styles.value}>{user.name}</span>
+          </div>
+          <div className={styles.infoCard}>
+            <span className={styles.label}>UID</span>
+            <span className={styles.value}>{user.uid}</span>
+          </div>
+          <div className={styles.infoCard}>
+            <span className={styles.label}>Theme</span>
+            <span className={styles.value}>{theme}</span>
+          </div>
+          <div className={styles.infoCard}>
+            <span className={styles.label}>Cart (useMemo)</span>
+            <span className={styles.value}>
+              {cartStats.totalItems} items · ${cartStats.totalValue.toFixed(2)}
+            </span>
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* Product demo */}
+      <section className={styles.section}>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>
+            Redux Cart · useMemo Filtered Products
+          </h2>
+          <span className={styles.badge}>{filteredProducts.length} shown</span>
+        </div>
+        <FilterBar value={search} onChange={setSearch} />
+        <div className={styles.grid}>
+          {filteredProducts.map((p) => (
+            <CardComponent key={p.id} product={p} />
+          ))}
+          {filteredProducts.length === 0 && (
+            <p className={styles.empty}>No products match.</p>
+          )}
+        </div>
+      </section>
     </div>
   );
 }

@@ -1,0 +1,29 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 0.25rem;
+  background: transparent;
+  color: var(--color-gray-600);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toggle:hover {
+  border-color: var(--color-black);
+  color: var(--color-black);
+}
+
+.toggle.dark {
+  background: var(--color-gray-900);
+  border-color: var(--color-gray-700);
+  color: var(--color-gray-200);
+}
+
+.toggle.dark:hover {
+  background: var(--color-gray-800);
+  color: var(--color-white);
+}

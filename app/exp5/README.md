@@ -1,4 +1,120 @@
-## Experiment 5: Performance Optimization in React
+## Experiment 5: useMemo Optimization & Advanced State Management
+
+**Student:** Harsh Partap Jain  
+**UID:** 23BAI70194  
+**Deployment:** [23bai70194-5-harsh-partap-jain.vercel.app](https://23bai70194-5-harsh-partap-jain.vercel.app)
+
+---
+
+### Experiment 5 Updates
+
+| Feature | Detail |
+|---|---|
+| Redux Toolkit store | `configureStore` with `cartSlice` (addItem / removeItem / updateQty) |
+| Context API | `AppContext` — theme (light/dark) + user profile |
+| New page | `/exp5/reports` — full cart demo with in-page useMemo |
+| useMemo | 5 distinct memoized values (see Reports page) |
+| Theme toggle | `ThemeToggle` component driven by Context |
+| Screenshots | Added in `screenshots/` folder |
+
+---
+
+### useMemo Implementations
+
+```typescript
+// 1. Unique category list (stable deps)
+const categories = useMemo(
+  () => ["All", ...new Set(CATALOGUE.map(p => p.category))],
+  []
+);
+
+// 2. Filtered catalogue
+const filteredCatalogue = useMemo(() =>
+  CATALOGUE.filter(p =>
+    p.name.toLowerCase().includes(search.toLowerCase()) &&
+    (categoryFilter === "All" || p.category === categoryFilter)
+  ),
+  [search, categoryFilter]
+);
+
+// 3. Total price from cart items
+const totalPrice = useMemo(
+  () => cartItems.reduce((sum, item) => sum + item.price * item.qty, 0),
+  [cartItems]
+);
+
+// 4. Total quantity
+const totalQty = useMemo(
+  () => cartItems.reduce((sum, item) => sum + item.qty, 0),
+  [cartItems]
+);
+
+// 5. Most expensive item in cart
+const mostExpensive = useMemo(
+  () => cartItems.reduce((max, item) => item.price > max.price ? item : max),
+  [cartItems]
+);
+```
+
+---
+
+### Redux Toolkit Implementation
+
+```typescript
+// cartSlice.ts
+const cartSlice = createSlice({
+  name: "cart",
+  initialState: { cartItems: [] },
+  reducers: {
+    addItem(state, action) { /* add or increment */ },
+    removeItem(state, action) { /* filter out */ },
+    updateQty(state, action) { /* clamp to 1 */ },
+  },
+});
+```
+
+---
+
+### Context API Implementation
+
+```typescript
+// AppContext.tsx
+const AppContext = createContext<AppContextType | null>(null);
+
+export function AppProvider({ children }) {
+  const [theme, setTheme] = useState("light");
+  return (
+    <AppContext.Provider value={{ theme, toggleTheme, user }}>
+      {children}
+    </AppContext.Provider>
+  );
+}
+```
+
+---
+
+### Architecture
+
+```
+Providers (Redux + Context)
+  └── Layout (server component)
+        └── Page / Reports (client components)
+              ├── CardComponent   — useSelector + useDispatch
+              ├── ThemeToggle     — useAppContext
+              └── FilterBar       — controlled input
+```
+
+---
+
+### Screenshots
+
+Screenshots are located in the `screenshots/` folder at the project root:
+
+- `screenshots/home.png` — Home page
+- `screenshots/reports.png` — Reports page with cart and useMemo stats  
+- `screenshots/redux-feature.png` — Redux cart state demo
+
+
 
 ### Overview
 
